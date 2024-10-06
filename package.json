@@ -1,0 +1,16 @@
+{
+  "name": "website-screenshot-downloader",
+  "version": "1.0.0",
+  "description": "A Node.js app to capture website screenshots and download them in PNG, JPG, and PDF formats.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^21.0.1"
+  },
+  "keywords": ["screenshot", "puppeteer", "nodejs", "express", "website-downloader"],
+  "author": "Zaid Hussain",
+  "license": "MIT"
+}
