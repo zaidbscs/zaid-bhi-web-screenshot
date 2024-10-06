@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Screenshot Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 80%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Screenshot Downloader</h1>
+  <input type="text" id="url" placeholder="Enter website URL" />
+  <br />
+  <button id="downloadPng">Download PNG</button>
+  <button id="downloadJpg">Download JPG</button>
+  <button id="downloadPdf">Download PDF</button>
+
+  <div id="preview">
+    <h3>Preview</h3>
+    <img id="screenshotPreview" src="" alt="Screenshot Preview" />
+  </div>
+
+  <script>
+    const downloadPngBtn = document.getElementById('downloadPng');
+    const downloadJpgBtn = document.getElementById('downloadJpg');
+    const downloadPdfBtn = document.getElementById('downloadPdf');
+    const screenshotPreview = document.getElementById('screenshotPreview');
+    const urlInput = document.getElementById('url');
+
+    async function fetchScreenshot(format) {
+      const url = urlInput.value;
+      if (!url) {
+        alert("Please enter a URL.");
+        return;
+      }
+
+      const response = await fetch(`/screenshot?url=${encodeURIComponent(url)}&format=${format}`);
+      const blob = await response.blob();
+      const urlObject = URL.createObjectURL(blob);
+
+      if (format === 'pdf') {
+        const a = document.createElement('a');
+        a.href = urlObject;
+        a.download = `screenshot.${format}`;
+        a.click();
+      } else {
+        screenshotPreview.src = urlObject;
+        const a = document.createElement('a');
+        a.href = urlObject;
+        a.download = `screenshot.${format}`;
+        a.click();
+      }
+    }
+
+    downloadPngBtn.addEventListener('click', () => fetchScreenshot('png'));
+    downloadJpgBtn.addEventListener('click', () => fetchScreenshot('jpg'));
+    downloadPdfBtn.addEventListener('click', () => fetchScreenshot('pdf'));
+  </script>
+</body>
+</html>
